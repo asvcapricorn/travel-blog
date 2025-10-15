@@ -1,0 +1,66 @@
+@use 'variables' as *;
+@use '../global/mixins.scss' as *;
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: $ff-main;
+  font-size: 24px;
+  line-height: 32px;
+  color: $color-white;
+  margin: 0;
+  padding: 0;
+  background-color: $color-fog-of-war;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.body-no-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.body-no-scroll-search {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  padding: 32px 0 0 0;
+  flex-grow: 1;
+  position: relative;
+
+  @media (max-width: 900px) {
+    padding: 16px 0 0;
+  }
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: $color-white;
+}

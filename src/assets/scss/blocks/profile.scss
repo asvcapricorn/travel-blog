@@ -1,0 +1,74 @@
+@use '../global/variables.scss' as *;
+@use '../global/mixins.scss' as *;
+
+.profile {
+  &__title {
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 56px;
+    margin: 0 0 64px;
+
+    @include vp-767 {
+      font-size: 24px;
+      line-height: 32px;
+      margin: 0 0 40px;
+    }
+  }
+
+  &__switcher {
+    display: flex;
+    gap: 64px;
+    align-items: center;
+    margin: 0 0 64px;
+
+    @include vp-767 {
+      gap: 24px;
+      margin: 0 0 40px;
+    }
+  }
+
+  &__link {
+    position: relative;
+    outline: none;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    transition: color $transition-80;
+
+    &:hover,
+    &:focus-visible {
+      color: $color-winterspring-lilac;
+    }
+
+    &::after {
+      content: '';
+      width: 100%;
+      height: 1.5px;
+      background-color: $color-magenta;
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      display: none;
+    }
+
+    &.router-link-active {
+      &::after {
+        display: block;
+      }
+    }
+  }
+
+  &__link-title {
+    @include vp-767 {
+      display: none;
+    }
+
+    &--mobile {
+      display: none;
+
+      @include vp-767 {
+        display: block;
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+@use '../global/variables' as *;
+
+.just-validate-error-label {
+  color: $color-embarrassment !important;
+  position: absolute;
+  bottom: 0px;
+  top: 100%;
+}

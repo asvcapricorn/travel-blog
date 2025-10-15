@@ -1,0 +1,126 @@
+@use '../global/variables' as *;
+@use '../global/mixins' as *;
+
+.custom-input {
+  $root: &;
+  position: relative;
+  width: 100%;
+
+  &--light {
+    width: 340px;
+
+    @include vp-767 {
+      width: 295px;
+    }
+
+    #{$root}__field {
+      background-color: $color-white;
+      border-color: $color-black-40;
+      padding: 15px 15px 15px 51px;
+      color: $color-black;
+
+      &::placeholder {
+        color: $color-black-40;
+      }
+    }
+
+    #{$root}__icon {
+      color: $color-black-40;
+    }
+  }
+
+  &--error {
+    #{$root}__field {
+      border-color: $color-embarrassment;
+    }
+
+    #{$root}__error {
+      pointer-events: all;
+    }
+
+    #{$root}__icon {
+      color: $color-embarrassment;
+    }
+  }
+
+  &:not(&--error) {
+    #{$root}__field {
+      &:hover,
+      &:focus-visible {
+        border-color: $color-winterspring-lilac;
+
+        ~ #{$root}__icon {
+          color: $color-winterspring-lilac;
+        }
+      }
+    }
+  }
+
+  &__field {
+    border: 1px solid $color-onyx;
+    font-family: $ff-main;
+    border-radius: 8px;
+    padding: 11px 51px;
+    width: 100%;
+    outline: none;
+    font-size: 18px;
+    line-height: 24px;
+    background-color: $color-onyx;
+    color: $color-white;
+    transition: border-color $transition-80;
+
+    &::placeholder {
+      color: $color-white-50;
+    }
+
+    @include vp-767 {
+      padding: 15px 51px;
+    }
+  }
+
+  &__error {
+    position: relative;
+    font-size: 14px;
+    line-height: 16px;
+    pointer-events: none;
+    display: block;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-white-50;
+    pointer-events: none;
+    transition: color $transition-80;
+  }
+
+  &__btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
+    outline: none;
+    color: $color-white-50;
+    background-color: transparent;
+
+    &:hover,
+    &:focus-visible {
+      color: $color-winterspring-lilac;
+    }
+
+    @include vp-767 {
+      color: $color-white;
+    }
+  }
+}

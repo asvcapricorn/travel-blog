@@ -1,0 +1,31 @@
+/* Global */
+@use 'global/variables';
+@use 'global/mixins';
+@use 'global/fonts';
+@use 'global/reboot';
+@use 'global/container';
+@use 'global/visually-hidden';
+
+/* Blocks */
+@use 'blocks/btn';
+@use 'blocks/header';
+@use 'blocks/custom-input';
+@use 'blocks/random-movie';
+@use 'blocks/movie-card';
+@use 'blocks/loader';
+@use 'blocks/movies';
+@use 'blocks/poster-movie-card';
+@use 'blocks/footer';
+@use 'blocks/socials';
+@use 'blocks/search-form';
+@use 'blocks/movie-view';
+@use 'blocks/genres';
+@use 'blocks/genre-card';
+@use 'blocks/top';
+@use 'blocks/movies-by-genre';
+@use 'blocks/modal';
+@use 'blocks/form';
+@use 'blocks/modal-overlay';
+@use 'blocks/just-validate-error-label';
+@use 'blocks/profile';
+@use 'blocks/settings';
