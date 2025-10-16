@@ -7,7 +7,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: $color-white;
+  background-color: var(--color-white);
   padding: 64px 40px 48px;
   border-radius: 24px;
   display: flex;
@@ -23,7 +23,7 @@
     max-width: 90vw;
     aspect-ratio: 16 / 9;
     background-color: $color-onyx;
-    border: 1px solid $color-white-50;
+    border: 1px solid var(--color-white)-50;
     border-radius: initial;
     padding: 0;
 
@@ -131,7 +131,7 @@
   &__btn {
     position: absolute;
     padding: 12px;
-    background-color: $color-white;
+    background-color: var(--color-white);
     border-radius: 50%;
     color: $color-black;
     border: none;

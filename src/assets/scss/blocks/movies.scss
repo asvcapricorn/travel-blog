@@ -74,7 +74,7 @@
       font-weight: 700;
       color: $color-circumorbital-ring;
       padding: 8px 24px;
-      background-color: $color-white;
+      background-color: var(--color-white);
       border-radius: 50px;
       z-index: 10;
       pointer-events: none;

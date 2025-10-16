@@ -69,13 +69,13 @@
       margin: 0;
       font-size: 14px;
       line-height: 20px;
-      color: $color-white-50;
+      color: var(--color-white)-50;
     }
   }
 
   &__dots {
     flex-grow: 1;
-    border-bottom: 1px dashed $color-white-50;
+    border-bottom: 1px dashed var(--color-white)-50;
     height: 1px;
     align-self: end;
     position: relative;

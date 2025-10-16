@@ -25,13 +25,13 @@
     &:hover,
     &:focus-visible {
       #{$root}__link-icon {
-        color: $color-white;
+        color: var(--color-white);
       }
     }
   }
 
   &__link-icon {
-    color: $color-white-80;
+    color: var(--color-white)-80;
     width: 36px;
     height: 36px;
 

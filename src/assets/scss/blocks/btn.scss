@@ -9,11 +9,11 @@
   margin: 0;
   border-radius: 28px;
   border: 1px solid;
-  font-family: $ff-main;
+  font-family: var(--ff-main);
   font-weight: 700;
   font-size: 18px;
   line-height: 24px;
-  color: $color-white;
+  color: var(--color-white);
   outline: none;
   transition: opacity $transition-80;
   text-align: center;
@@ -29,7 +29,7 @@
 
   &:disabled {
     cursor: default;
-    color: $color-white-50;
+    color: var(--color-white)-50;
   }
 
   &--primary {
@@ -52,8 +52,8 @@
   }
 
   &--tertiary {
-    background-color: $color-white;
-    border-color: $color-white;
+    background-color: var(--color-white);
+    border-color: var(--color-white);
     color: $color-black;
   }
 
