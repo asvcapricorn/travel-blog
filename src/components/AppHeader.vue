@@ -36,7 +36,7 @@ onMounted(() => {
             <RouterLink class="header__profile" to="/profile" v-if="userName">
               {{ userName }}
             </RouterLink>
-            <button class="header__profile" type="button" @click="openAuth" v-else>
+            <button class="header__profile" type="button" v-else>
               Войти
             </button>
           </div>

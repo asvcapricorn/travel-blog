@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '@/services/api';
 import MovieCard from '@/components/MovieCard.vue';
-import type { IMovie } from '../types/movie';
+import type { IMovie } from '../types/story';
 import { handleAxiosError } from '@/utils'
 
 const route = useRoute();
