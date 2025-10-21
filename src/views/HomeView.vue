@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { storeToRefs } from 'pinia'
 // import api from '@/services/api'
-import StoryCard from '@/components/StoryCard.vue';
+import PostCard from '@/components/PostCard.vue';
 import { handleAxiosError } from '@/utils'
-import type { IStory } from '@/types/story';
+import type { IPostListItem } from '@/types/post';
+import { useUserStore } from '@/stores/user'
 
+const userStore = useUserStore()
+const { isAuthorized } = storeToRefs(userStore)
 
-const stories = ref<IStory[] | []>([]);
+const posts = ref<IPostListItem[] | []>([]);
 
-const mockDataList: IStory[] | [] = [
+const mockDataList: IPostListItem[] | [] = [
   {
     "id": 1,
     "title": "Заголовок поста",
@@ -35,6 +39,13 @@ const mockDataList: IStory[] | [] = [
     "excerpt": "Выдержка и из поста Выдержкаи из постаВыдержкаи из поста Выдержкаи из поста Выдержкаи из поста",
     "photo": "/src/mock-img.jpg",
     "place": "Заголовок поста"
+  },
+  {
+    "id": 5,
+    "title": "Заголовок поста",
+    "excerpt": "Выдержка и из поста Выдержкаи из постаВыдержкаи из поста Выдержкаи из поста Выдержкаи из поста",
+    "photo": "/src/mock-img.jpg",
+    "place": "Заголовок поста"
   }
 ]
 
@@ -42,11 +53,11 @@ const getStories = async (): Promise<void> => {
   try {
     // const resp = await api.get("/posts");
     // const data = await resp.data;
-    // stories.value = data
-    stories.value = mockDataList;
+    // posts.value = data
+    posts.value = mockDataList;
   } catch (err) {
     handleAxiosError(err);
-    stories.value = []
+    posts.value = []
   }
 };
 
@@ -56,13 +67,14 @@ onMounted(getStories);
 <template>
   <main>
     <div class="container">
-      <section class="stories">
-        <ul class="stories__list">
-          <li class="stories__item" v-for="story in stories" :key="story.id">
-            <StoryCard :story="story" />
+      <section class="posts">
+        <ul class="posts__list">
+          <li class="posts__item" v-for="post in posts" :key="post.id">
+            <PostCard :post="post" />
           </li>
         </ul>
-        <button class="btn btn--primary stories__btn" type="button">Добавить мое путешествие</button>
+        <button class="btn btn--primary posts__btn" type="button" v-if="isAuthorized">Добавить мое
+          путешествие</button>
       </section>
     </div>
   </main>

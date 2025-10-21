@@ -1,0 +1,32 @@
+.post {
+  padding: 0 0 119px;
+
+  &__image {
+    width: 100%;
+    height: 450px;
+    border-radius: 10px 10px 0 0;
+    margin: 0 0 30px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 100%;
+    margin: 0 0 15px;
+    color: var(--color-very-dark-grey);
+
+    // @include vp-767 {
+    //   font-size: 24px;
+    //   line-height: 32px;
+    //   margin: 0 0 40px;
+    // }
+  }
+
+  &__description {
+    margin: 0 0 50px;
+
+    // @include vp-1023 {
+    //   gap: 24px;
+    // }
+  }
+}

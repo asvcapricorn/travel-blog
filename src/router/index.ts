@@ -7,22 +7,12 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue'),
+    },
+    {
+      path: '/post/:postId',
+      name: 'post',
+      component: () => import('../views/PostView.vue'),
     } /*,
-    {
-      path: '/genres',
-      name: 'genres',
-      component: () => import('../views/GenresView.vue'),
-    },
-    {
-      path: '/moviesByGenre/:genre',
-      name: 'moviesByGenre',
-      component: () => import('../views/MoviesByGenreView.vue'),
-    },
-    {
-      path: '/movie/:movieId',
-      name: 'movie',
-      component: () => import('../views/MovieView.vue'),
-    },
     {
       path: '/profile',
       name: 'profile',

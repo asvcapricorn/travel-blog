@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 import api from '@/services/api';
 import { GENRE_MAP } from '@/constants/genres';
 import type { GenreKey } from '@/constants/genres';
-import type { IMovie } from '../types/story';
+import type { IMovie } from '../types/post';
 import MoviesList from '@/components/MoviesList.vue';
 import { handleAxiosError } from '@/utils'
 
