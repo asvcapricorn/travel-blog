@@ -51,6 +51,11 @@
     margin: 0 0 39px;
   }
 
+  &__right {
+    display: flex;
+    place-items: center;
+  }
+
   &__title {
     margin: 0;
     font-weight: 700;

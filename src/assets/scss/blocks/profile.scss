@@ -33,7 +33,7 @@
     display: flex;
     gap: 8px;
     align-items: center;
-    transition: color $transition-80;
+    transition: color var(--transition-80);
 
     &:hover,
     &:focus-visible {

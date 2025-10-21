@@ -1,70 +1,70 @@
-@use '../global/variables.scss' as *;
-@use '../global/mixins.scss' as *;
+// @use '../global/mixins.scss' as *;
 
 .btn {
   flex-shrink: 0;
   cursor: pointer;
   border: none;
-  padding: 15px 47px;
-  margin: 0;
-  border-radius: 28px;
+  padding: 18px 28px;
+  margin: 0 auto;
+  border-radius: 10px;
   border: 1px solid;
   font-family: var(--ff-main);
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 24px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 13px;
   color: var(--color-white);
   outline: none;
-  transition: opacity $transition-80;
-  text-align: center;
+  transition: background-color var(--transition-80);
+  justify-content: center;
+  display: flex;
 
-  @include vp-767 {
-    padding: 15px 39px;
-  }
+  // @include vp-767 {
+  //   padding: 15px 39px;
+  // }
 
-  &:hover,
-  &:focus-visible {
-    opacity: 0.8;
-  }
+  // &:hover,
+  // &:focus-visible {
+  //   opacity: 0.8;
+  // }
 
-  &:disabled {
-    cursor: default;
-    color: var(--color-white)-50;
-  }
+  // &:disabled {
+  //   cursor: default;
+  //   color: var(--color-white)-50;
+  // }
 
   &--primary {
-    background-color: $color-blue-jeans;
-    border-color: $color-blue-jeans;
+    background-color: var(--color-vivid-orange);
+    border-color: var(--color-vivid-orange);
 
-    &:disabled {
-      background-color: $color-signature-blue;
-      border-color: $color-signature-blue;
+    &:hover,
+    &:focus-visible {
+      background-color: var(--color-pure-orange);
     }
   }
 
-  &--secondary {
-    background-color: $color-onyx;
-    border-color: $color-black-40;
+  // &--secondary {
+  //   background-color: $color-onyx;
+  //   border-color: $color-black-40;
 
-    &:disabled {
-      background-color: $color-industrial-revolution;
-    }
-  }
+  //   &:disabled {
+  //     background-color: $color-industrial-revolution;
+  //   }
+  // }
 
-  &--tertiary {
-    background-color: var(--color-white);
-    border-color: var(--color-white);
-    color: $color-black;
-  }
+  // &--tertiary {
+  //   background-color: var(--color-white);
+  //   border-color: var(--color-white);
+  //   color: $color-black;
+  // }
 
-  &--icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 21px;
+  // &--icon {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   padding: 15px 21px;
 
-    &:disabled {
-      background-color: $color-industrial-revolution;
-    }
-  }
+  //   &:disabled {
+  //     background-color: $color-industrial-revolution;
+  //   }
+  // }
 }

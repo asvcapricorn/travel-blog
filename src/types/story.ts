@@ -3,4 +3,5 @@ export interface IStory {
   title: string
   photo?: string
   excerpt: string
+  place: string
 }

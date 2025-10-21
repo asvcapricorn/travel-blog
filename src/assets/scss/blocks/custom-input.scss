@@ -67,7 +67,7 @@
     line-height: 24px;
     background-color: $color-onyx;
     color: var(--color-white);
-    transition: border-color $transition-80;
+    transition: border-color var(--transition-80);
 
     &::placeholder {
       color: var(--color-white)-50;
@@ -93,7 +93,7 @@
     transform: translateY(-50%);
     color: var(--color-white)-50;
     pointer-events: none;
-    transition: color $transition-80;
+    transition: color var(--transition-80);
   }
 
   &__btn {

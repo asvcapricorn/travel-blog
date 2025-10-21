@@ -6,9 +6,16 @@
   --color-white: #ffffff;
   --color-black: #000000;
   --color-snow: #f9f9f9;
+  --color-vivid-orange: #ffa902;
+  --color-pure-orange: #f3a100;
+  --color-fark-grayish-red: #868383;
 
   --color-white-60: rgba(255, 255, 255, 0.6);
+  --color-black-10: rgba(0, 0, 0, 0.1);
   --color-black-70: rgba(0, 0, 0, 0.7);
+
+  /* Animation */
+  --transition-80: ease-in 0.08s;
 }
 
 $color-black: #000000;
@@ -34,6 +41,4 @@ $color-rating-bad: #c82020;
 $vp-tablet: 1023px;
 $vp-mobile: 767px;
 
-/* Animation */
-$transition-80: ease-in 0.08s;
 $transition-300: ease-in 0.3s;
