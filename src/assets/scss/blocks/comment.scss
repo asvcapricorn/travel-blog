@@ -1,0 +1,21 @@
+@use '../global/variables.scss' as *;
+
+.comment {
+  &__author {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: block;
+  }
+
+  &__date {
+    font-size: 14px;
+    margin: 0 0 5px;
+    color: var(--color-fark-grayish-red);
+    display: block;
+  }
+
+  &__content {
+    margin: 0;
+  }
+}

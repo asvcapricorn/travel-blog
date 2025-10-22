@@ -5,44 +5,19 @@ import api from '@/services/api';
 import type { IPost } from '../types/post'
 import { handleAxiosError } from '@/utils'
 import PostComment from '@/components/PostComment.vue';
-import CommonIcon from '@/components/common/CommonIcon.vue'
+// import CommonIcon from '@/components/common/CommonIcon.vue'
 
 const route = useRoute();
-console.log(route.params.postId);
-
 const post = ref<IPost | null>(null);
-
-const mockData: IPost = {
-  "id": 1,
-  "title": "Заголовок поста",
-  "description": "Тело поста тело поста тело поста тело поста тело поста тело поста тело поста...",
-  "country": "Россия",
-  "city": "Москва",
-  "photo": "/src/mock-img.jpg",
-  "comments": [
-    {
-      "author_name": "Фамилия Имя Отчество",
-      "comment": "Комментарии к посту комментарии к посту комментарии к посту комментарии к посту комментарии к посту  ",
-      "created_at": "2024-07-22T10:16:16.000000Z"
-    }
-  ],
-  "userInfo": {
-    "full_name": "Author Full Name",
-    "city": "Сочи",
-    "bio": "Информация об авторе поста"
-  }
-};
 
 const getPost = async (postId: string): Promise<void> => {
   try {
-    // const resp = await api.get(`/movie/${postId}`);
-    // post.value = await resp.data;
-    post.value = mockData;
+    const resp = await api.get(`/posts/${postId}`);
+    post.value = await resp.data;
   } catch (err) {
     handleAxiosError(err)
   }
 };
-
 
 onMounted(() => {
   getPost(route.params.postId as string);
@@ -55,7 +30,8 @@ onMounted(() => {
     <section class="post">
       <div class="container">
         <div class="post__wrapper">
-          <img class="post__image" :src="post?.photo" height="450" width="1172" alt="Фото истории" v-if="post?.photo" />
+          <img class="post__image" :src="`https://travelblog.skillbox.cc${post?.photo}`" height="450" width="1172"
+            alt="Фото истории" v-if="post?.photo" />
           <div class="post__content">
             <h2 class="post__title">{{ post?.title }}</h2>
             <p class="post__description">{{ post?.description }}</p>
@@ -64,13 +40,13 @@ onMounted(() => {
                 <PostComment :comment="comment" />
               </li>
             </ul>
-          </div>
-          <div class="post__buttons">
-            <button class="btn btn--secondary" type="button">
-              <CommonIcon class="post-card__image" iconName="IconBack" />
-              <span class="btn__text">Назад</span>
-            </button>
-            <button class="btn btn--primary" type="button">Ваше впечатление об этом месте</button>
+            <div class="post__buttons">
+              <button class="btn btn--secondary" type="button">
+                <!-- <CommonIcon class="post-card__image" iconName="IconBack" /> -->
+                <span class="btn__text">Назад</span>
+              </button>
+              <button class="btn btn--primary" type="button">Ваше впечатление об этом месте</button>
+            </div>
           </div>
         </div>
       </div>

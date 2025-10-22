@@ -11,7 +11,8 @@ defineProps<{
 <template>
   <div class="post-card">
     <div class="post-card__img-container">
-      <img class="post-card__image" :src="post?.photo" height="288" width="370" alt="Фото истории" v-if="post?.photo" />
+      <img class="post-card__image" :src="`https://travelblog.skillbox.cc${post?.photo}`" height="288" width="370"
+        alt="Фото истории" v-if="post?.photo" />
       <CommonIcon class="post-card__image" iconName="IconPhotoDefault" v-else />
     </div>
     <div class="post-card__content">
