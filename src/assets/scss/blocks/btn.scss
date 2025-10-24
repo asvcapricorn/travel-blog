@@ -4,10 +4,10 @@
   flex-shrink: 0;
   cursor: pointer;
   border: none;
-  padding: 18px 28px;
+  padding: 17px;
   margin: 0;
   border-radius: 10px;
-  border: 1px solid;
+  border: 2px solid;
   font-family: var(--ff-main);
   font-weight: 600;
   font-size: 16px;
@@ -17,6 +17,8 @@
   transition: background-color var(--transition-80);
   justify-content: center;
   display: flex;
+  align-items: center;
+  gap: 10px;
 
   // @include vp-767 {
   //   padding: 15px 39px;
@@ -38,18 +40,25 @@
 
     &:hover,
     &:focus-visible {
+      border-color: var(--color-pure-orange);
       background-color: var(--color-pure-orange);
     }
   }
 
-  // &--secondary {
-  //   background-color: $color-onyx;
-  //   border-color: $color-black-40;
+  &--secondary {
+    background-color: transparent;
+    color: var(--color-vivid-orange);
 
-  //   &:disabled {
-  //     background-color: $color-industrial-revolution;
-  //   }
-  // }
+    &:hover,
+    &:focus-visible {
+      color: var(--color-pure-orange);
+      border-color: var(--color-pure-orange);
+    }
+  }
+
+  &--with-icon {
+    padding: 11.5px;
+  }
 
   // &--tertiary {
   //   background-color: var(--color-white);

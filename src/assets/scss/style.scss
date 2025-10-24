@@ -9,12 +9,13 @@
 /* Blocks */
 @use 'blocks/btn';
 @use 'blocks/header';
-// @use 'blocks/custom-input';
+@use 'blocks/custom-input';
 // @use 'blocks/random-movie';
 @use 'blocks/post-card';
 // @use 'blocks/loader';
 @use 'blocks/posts';
-// @use 'blocks/footer';
+@use 'blocks/login';
+@use 'blocks/login-form';
 // @use 'blocks/socials';
 // @use 'blocks/search-form';
 // @use 'blocks/movie-view';
@@ -23,8 +24,8 @@
 @use 'blocks/comment';
 // @use 'blocks/movies-by-genre';
 // @use 'blocks/modal';
-// @use 'blocks/form';
+@use 'blocks/form';
 // @use 'blocks/modal-overlay';
-// @use 'blocks/just-validate-error-label';
+@use 'blocks/just-validate-error-label';
 // @use 'blocks/profile';
 // @use 'blocks/settings';

@@ -36,9 +36,9 @@ onMounted(() => {
             <RouterLink class="header__profile" to="/profile" v-if="userName">
               {{ userName }}
             </RouterLink>
-            <button class="header__profile" type="button" v-else>
+            <RouterLink class="header__profile" to="/login" v-else>
               Войти
-            </button>
+            </RouterLink>
           </div>
         </div>
         <h1 v-if="homePage" class="header__title">Там, где мир начинается с путешествий</h1>

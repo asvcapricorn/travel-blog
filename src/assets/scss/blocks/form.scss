@@ -2,6 +2,7 @@
 
 .form {
   $root: &;
+  width: 100%;
 
   &--error {
     #{$root}__error {
@@ -14,39 +15,37 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
     border: none;
     padding: 0;
-    margin: 0 0 24px;
+    margin: 0 0 30px;
   }
 
   &__error {
-    color: $color-embarrassment;
+    color: var(--color-light-red);
     position: absolute;
-    top: -20px;
-    left: 0;
-    font-size: 14px;
-    line-height: 16px;
-    pointer-events: none;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
     opacity: 0;
-  }
-
-  &__group-name {
-    font-weight: 700;
-    color: $color-black;
-    padding: 0;
-    width: 100%;
+    font-size: 14px;
+    line-height: 22px;
     text-align: center;
-    margin: 0 0 24px;
   }
 
   &__wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
   }
 
-  &__btn {
-    width: 100%;
+  &__btn-register {
+    width: 234px;
+  }
+
+  &__btn-login {
+    width: 113px;
   }
 }

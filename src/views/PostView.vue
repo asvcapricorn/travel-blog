@@ -5,7 +5,7 @@ import api from '@/services/api';
 import type { IPost } from '../types/post'
 import { handleAxiosError } from '@/utils'
 import PostComment from '@/components/PostComment.vue';
-// import CommonIcon from '@/components/common/CommonIcon.vue'
+import CommonIcon from '@/components/common/CommonIcon.vue';
 
 const route = useRoute();
 const post = ref<IPost | null>(null);
@@ -41,11 +41,11 @@ onMounted(() => {
               </li>
             </ul>
             <div class="post__buttons">
-              <button class="btn btn--secondary" type="button">
-                <!-- <CommonIcon class="post-card__image" iconName="IconBack" /> -->
+              <RouterLink to="/" class="btn btn--secondary btn--with-icon post__back-btn" type="button">
+                <CommonIcon iconName="IconBack" fill="var(--color-vivid-orange)" />
                 <span class="btn__text">Назад</span>
-              </button>
-              <button class="btn btn--primary" type="button">Ваше впечатление об этом месте</button>
+              </RouterLink>
+              <button class="btn btn--primary post__review-btn" type="button">Ваше впечатление об этом месте</button>
             </div>
           </div>
         </div>

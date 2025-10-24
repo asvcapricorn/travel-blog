@@ -1,35 +1,49 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import api from '@/services/api';
-import GenreCard from '../components/GenreCard.vue';
-import type { GenreKey } from '@/constants/genres';
-import { handleAxiosError } from '@/utils'
+import { useLoginForm } from '@/composables/useLoginForm';
+import CommonIcon from '@/components/common/CommonIcon.vue';
 
-const genres = ref<GenreKey[] | null>(null);
-
-const getGenres = async (): Promise<void> => {
-  try {
-    const resp = await api.get('/movie/genres');
-    genres.value = await resp.data;
-  } catch (err) {
-    handleAxiosError(err)
-  }
-};
-
-onMounted(getGenres);
+const { form, errors, formError, isLoading, handleSubmit } = useLoginForm();
 
 </script>
 
 <template>
   <main>
-    <section class="genres">
+    <section class="login">
       <div class="container">
-        <h1 class="genres__title">Жанры фильмов</h1>
-        <ul class="genres__list">
-          <li class="genres__item" v-for="genre in genres" :key="genre">
-            <GenreCard :genre=genre />
-          </li>
-        </ul>
+        <div class="login__wrapper">
+          <div class="login__content">
+            <h2 class="login__title">Вход в профиль</h2>
+            <form class="form login-form" :class="{ 'form--error': !!formError }" @submit.prevent="handleSubmit"
+              novalidate>
+              <fieldset class=" form__group">
+                <span class="form__error">{{ formError }}</span>
+                <div class="custom-input" :class="{ 'custom-input--error': !!errors.email }">
+                  <label class="custom-input__label" for="email">
+                    <CommonIcon iconName="IconAsterisk" />
+                    <span class="custom-input__label-text">Логин</span>
+                  </label>
+                  <input class="custom-input__field" name="email" id="email" type="email" placeholder="Email"
+                    v-model="form.email">
+                  <span class="custom-input__error">{{ errors.email }}</span>
+                </div>
+                <div class="custom-input" :class="{ 'custom-input--error': !!errors.password }">
+                  <label class="custom-input__label" for="password">
+                    <CommonIcon iconName="IconAsterisk" />
+                    <span class="custom-input__label-text">Пароль</span>
+                  </label>
+                  <input class="custom-input__field" name="password" id="password" type="password" placeholder="Пароль"
+                    v-model="form.password">
+                  <span class="custom-input__error">{{ errors.password }}</span>
+                </div>
+              </fieldset>
+              <div class="form__wrapper">
+                <RouterLink class="form__btn-register btn btn--secondary" to="/register">Зарегистрироваться</RouterLink>
+                <button class="form__btn--login btn btn--primary" type="submit">{{ isLoading ? 'Загрузка...' : 'Войти'
+                }}</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   </main>
