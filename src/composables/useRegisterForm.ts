@@ -1,37 +1,36 @@
 import { ref, type Ref } from 'vue'
 import api from '@/services/api'
-import { useUserStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
 import { AxiosError } from 'axios'
 import { useRouter } from 'vue-router'
 
-interface LoginForm {
+interface RegisterForm {
   email: string
   password: string
+  confirmPassword: string
 }
 
 interface ValidationErrors {
   email?: string
   password?: string
+  confirmPassword?: string
 }
 
-interface UseLoginFormReturn {
-  form: Ref<LoginForm>
+interface UseRegisterFormReturn {
+  form: Ref<RegisterForm>
   errors: Ref<ValidationErrors>
   formError: Ref<string>
   isLoading: Ref<boolean>
   handleSubmit: () => Promise<void>
+  clearErrors: () => void
 }
 
-export function useLoginForm(): UseLoginFormReturn {
+export function useRegisterForm(): UseRegisterFormReturn {
   const router = useRouter()
 
-  const userStore = useUserStore()
-  const { isAuthorized } = storeToRefs(userStore)
-
-  const form = ref<LoginForm>({
+  const form = ref<RegisterForm>({
     email: '',
     password: '',
+    confirmPassword: '',
   })
 
   const errors = ref<ValidationErrors>({})
@@ -51,32 +50,22 @@ export function useLoginForm(): UseLoginFormReturn {
     clearErrors()
     isLoading.value = true
     try {
-      const resp = await api.post('/login', {
-        email: form.value.email,
-        password: form.value.password,
-      })
-      const data = await resp.data
-      console.log(data)
-
-      if (data.token) {
-        userStore.setToken(data.token)
-      }
-
-      router.push('/')
-
-      isAuthorized.value = true
-      try {
-        const resp = await api.get('/user')
+      if (form.value.password === form.value.confirmPassword) {
+        const resp = await api.post('/register', {
+          email: form.value.email,
+          password: form.value.password,
+        })
         const data = await resp.data
-        // userName.value = data.full_name
-        console.log('user', data)
-        // localStorage.setItem('user', JSON.stringify(data))
-      } catch (err) {
-        // handleAxiosError(err)
-        console.log(err)
+        console.log(data)
+        router.push('/login')
+      } else {
+        throw new Error('Passwords should be the same')
       }
     } catch (err) {
-      if (err instanceof AxiosError && err.response) {
+      console.log('err', err)
+      if (err instanceof Error && err.message && err.message === 'Passwords should be the same') {
+        setFieldError('confirmPassword', err.message)
+      } else if (err instanceof AxiosError && err.response) {
         const { status, data } = err.response
         if (status === 400 && data.messages) {
           Object.keys(data.messages).forEach((field) => {
@@ -84,8 +73,6 @@ export function useLoginForm(): UseLoginFormReturn {
               setFieldError(field as keyof ValidationErrors, data.messages[field][0])
             }
           })
-        } else if (status === 401) {
-          formError.value = 'Неправильный логин или пароль'
         } else {
           formError.value = 'Произошла непредвиденная ошибка'
         }
@@ -103,5 +90,6 @@ export function useLoginForm(): UseLoginFormReturn {
     formError,
     isLoading,
     handleSubmit,
+    clearErrors,
   }
 }

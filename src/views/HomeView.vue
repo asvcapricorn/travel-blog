@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia'
 import api from '@/services/api'
 import PostCard from '@/components/PostCard.vue';
-import { handleAxiosError } from '@/utils'
+// import { handleAxiosError } from '@/utils'
 import type { IPostListItem } from '@/types/post';
 import { useUserStore } from '@/stores/user'
 
@@ -18,7 +18,7 @@ const getStories = async (): Promise<void> => {
     const data = await resp.data;
     posts.value = data;
   } catch (err) {
-    handleAxiosError(err);
+    // handleAxiosError(err);
     posts.value = []
   }
 };

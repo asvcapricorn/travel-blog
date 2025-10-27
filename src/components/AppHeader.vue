@@ -9,7 +9,7 @@ defineProps<{
 }>();
 
 const userStore = useUserStore()
-const { userName } = storeToRefs(userStore)
+const { userName, isAuthorized } = storeToRefs(userStore)
 
 onMounted(() => {
   const userData = localStorage.getItem('user')
@@ -33,8 +33,8 @@ onMounted(() => {
             <CommonIcon iconName="IconLogo" fill="white" stroke="white" />
           </RouterLink>
           <div class="header__right">
-            <RouterLink class="header__profile" to="/profile" v-if="userName">
-              {{ userName }}
+            <RouterLink class="header__profile" to="/profile" v-if="isAuthorized">
+              {{ userName || 'Пользователь' }}
             </RouterLink>
             <RouterLink class="header__profile" to="/login" v-else>
               Войти

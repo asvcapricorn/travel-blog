@@ -1,86 +1,57 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
-import api from '@/services/api';
-import { GENRE_MAP } from '@/constants/genres';
-import type { GenreKey } from '@/constants/genres';
-import type { IMovie } from '../types/post';
-import MoviesList from '@/components/MoviesList.vue';
-import { handleAxiosError } from '@/utils'
+import { useRegisterForm } from '@/composables/useRegisterForm';
+import CommonIcon from '@/components/common/CommonIcon.vue';
 
-const route = useRoute();
-const movies = ref<IMovie[]>([]);
-
-const currentPage = ref(1);
-const hasMore = ref(true);
-const LIMIT = 10;
-
-const getMovies = async (page: number = 1): Promise<void> => {
-  if (!hasMore.value) return;
-  try {
-    const query = new URLSearchParams({
-      count: String(15),
-      page: String(page),
-      genre: route.params.genre as string
-    })
-    const resp = await api.get(`/movie?${query}`);
-    const newMovies = await resp.data;
-
-    if (newMovies.length < LIMIT) {
-      hasMore.value = false;
-    }
-
-    if (page === 1) {
-      movies.value = newMovies;
-    } else {
-      movies.value.push(...newMovies);
-    }
-
-    currentPage.value = page;
-
-  } catch (err) {
-    handleAxiosError(err)
-  }
-};
-
-const loadMore = () => {
-  if (hasMore.value) {
-    getMovies(currentPage.value + 1);
-  }
-};
-
-const translatedGenre = computed(() => {
-  if (route.params.genre) {
-    const lowerTranslatedGenre = GENRE_MAP[route.params.genre as GenreKey]?.translation || route.params.genre as string;
-    const upperFirstChar = lowerTranslatedGenre.charAt(0).toUpperCase();
-    const restOfString = lowerTranslatedGenre.slice(1);
-    return upperFirstChar + restOfString;
-  }
-  return '';
-});
-
-onMounted(() => {
-  getMovies(1);
-});
+const { form, errors, formError, isLoading, handleSubmit, clearErrors } = useRegisterForm();
 
 </script>
 
 <template>
   <main>
-    <section class="movies-by-genre">
+    <section class="register">
       <div class="container">
-        <div class="movies-by-genre__wrapper">
-          <h1 class="visually-hidden">Фильмы по жанрам</h1>
-          <RouterLink class="movies-by-genre__title" to="/genres">
-            <svg class="movies-by-genre__title-icon" width="40" height="40" aria-hidden="true">
-              <use xlink:href="@/assets/images/sprite.svg#icon-chevron"></use>
-            </svg>
-            <span class="movies-by-genre__title-text">{{ translatedGenre }}</span>
-          </RouterLink>
-          <MoviesList class="movies-by-genre__list" :movies="movies" :cardTop="false" />
-          <button v-if="hasMore" class="movies-by-genre__btn btn btn--primary" type="button" @click="loadMore">
-            Показать ещё
-          </button>
+        <div class="register__wrapper">
+          <div class="register__content">
+            <h2 class="register__title">Регистрация</h2>
+            <form class="form register-form" :class="{ 'form--error': !!formError }" @submit.prevent="handleSubmit"
+              novalidate>
+              <fieldset class="form__group">
+                <span class="form__error">{{ formError }}</span>
+                <div class="custom-input form__group-item form__group-item--two-cols"
+                  :class="{ 'custom-input--error': !!errors.email }">
+                  <label class="custom-input__label" for="email">
+                    <CommonIcon iconName="IconAsterisk" />
+                    <span class="custom-input__label-text">Email</span>
+                  </label>
+                  <input class="custom-input__field" name="email" id="email" type="email" placeholder="Email"
+                    v-model="form.email" @input="clearErrors">
+                  <span class="custom-input__error">{{ errors.email }}</span>
+                </div>
+                <div class="custom-input form__group-item" :class="{ 'custom-input--error': !!errors.password }">
+                  <label class="custom-input__label" for="password">
+                    <CommonIcon iconName="IconAsterisk" />
+                    <span class="custom-input__label-text">Пароль</span>
+                  </label>
+                  <input class="custom-input__field" name="password" id="password" type="password" placeholder="Пароль"
+                    v-model="form.password" @input="clearErrors">
+                  <span class="custom-input__error">{{ errors.password }}</span>
+                </div>
+                <div class="custom-input form__group-item" :class="{ 'custom-input--error': !!errors.confirmPassword }">
+                  <label class="custom-input__label" for="confirmPassword">
+                    <CommonIcon iconName="IconAsterisk" />
+                    <span class="custom-input__label-text">Повторите пароль</span>
+                  </label>
+                  <input class="custom-input__field" name="confirmPassword" id="confirmPassword" type="password"
+                    placeholder="Повторите пароль" v-model="form.confirmPassword" @input="clearErrors">
+                  <span class="custom-input__error">{{ errors.confirmPassword }}</span>
+                </div>
+              </fieldset>
+              <div class="form__wrapper">
+                <button class="form__btn--login btn btn--primary" type="submit">{{ isLoading ? 'Загрузка...' :
+                  'Зарегистрироваться' }}</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>

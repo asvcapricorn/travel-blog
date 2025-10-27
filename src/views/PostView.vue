@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '@/services/api';
 import type { IPost } from '../types/post'
-import { handleAxiosError } from '@/utils'
+// import { handleAxiosError } from '@/utils'
 import PostComment from '@/components/PostComment.vue';
 import CommonIcon from '@/components/common/CommonIcon.vue';
 
@@ -15,7 +15,7 @@ const getPost = async (postId: string): Promise<void> => {
     const resp = await api.get(`/posts/${postId}`);
     post.value = await resp.data;
   } catch (err) {
-    handleAxiosError(err)
+    // handleAxiosError(err)
   }
 };
 

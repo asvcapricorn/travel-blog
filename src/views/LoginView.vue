@@ -17,7 +17,8 @@ const { form, errors, formError, isLoading, handleSubmit } = useLoginForm();
               novalidate>
               <fieldset class=" form__group">
                 <span class="form__error">{{ formError }}</span>
-                <div class="custom-input" :class="{ 'custom-input--error': !!errors.email }">
+                <div class="custom-input form__group-item form__group-item--two-cols"
+                  :class="{ 'custom-input--error': !!errors.email }">
                   <label class="custom-input__label" for="email">
                     <CommonIcon iconName="IconAsterisk" />
                     <span class="custom-input__label-text">Логин</span>
@@ -26,7 +27,8 @@ const { form, errors, formError, isLoading, handleSubmit } = useLoginForm();
                     v-model="form.email">
                   <span class="custom-input__error">{{ errors.email }}</span>
                 </div>
-                <div class="custom-input" :class="{ 'custom-input--error': !!errors.password }">
+                <div class="custom-input form__group-item form__group-item--two-cols"
+                  :class="{ 'custom-input--error': !!errors.password }">
                   <label class="custom-input__label" for="password">
                     <CommonIcon iconName="IconAsterisk" />
                     <span class="custom-input__label-text">Пароль</span>
@@ -39,7 +41,7 @@ const { form, errors, formError, isLoading, handleSubmit } = useLoginForm();
               <div class="form__wrapper">
                 <RouterLink class="form__btn-register btn btn--secondary" to="/register">Зарегистрироваться</RouterLink>
                 <button class="form__btn--login btn btn--primary" type="submit">{{ isLoading ? 'Загрузка...' : 'Войти'
-                }}</button>
+                  }}</button>
               </div>
             </form>
           </div>
