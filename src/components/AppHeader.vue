@@ -9,12 +9,12 @@ defineProps<{
 }>();
 
 const userStore = useUserStore()
-const { userName, isAuthorized } = storeToRefs(userStore)
+const { user, isAuthorized } = storeToRefs(userStore)
 
 onMounted(() => {
   const userData = localStorage.getItem('user')
   if (userData) {
-    userName.value = JSON.parse(userData).name
+    user.value = JSON.parse(userData)
   }
 })
 
@@ -34,7 +34,7 @@ onMounted(() => {
           </RouterLink>
           <div class="header__right">
             <RouterLink class="header__profile" to="/profile" v-if="isAuthorized">
-              {{ userName || 'Пользователь' }}
+              {{ user?.full_name || 'Профиль' }}
             </RouterLink>
             <RouterLink class="header__profile" to="/login" v-else>
               Войти

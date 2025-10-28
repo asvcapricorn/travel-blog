@@ -47,6 +47,7 @@ const { form, errors, formError, isLoading, handleSubmit, clearErrors } = useReg
                 </div>
               </fieldset>
               <div class="form__wrapper">
+                <RouterLink class="form__btn-register btn btn--secondary" to="/login">У меня есть пароль</RouterLink>
                 <button class="form__btn--login btn btn--primary" type="submit">{{ isLoading ? 'Загрузка...' :
                   'Зарегистрироваться' }}</button>
               </div>

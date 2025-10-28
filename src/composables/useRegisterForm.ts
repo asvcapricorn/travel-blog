@@ -51,18 +51,15 @@ export function useRegisterForm(): UseRegisterFormReturn {
     isLoading.value = true
     try {
       if (form.value.password === form.value.confirmPassword) {
-        const resp = await api.post('/register', {
+        await api.post('/register', {
           email: form.value.email,
           password: form.value.password,
         })
-        const data = await resp.data
-        console.log(data)
         router.push('/login')
       } else {
         throw new Error('Passwords should be the same')
       }
     } catch (err) {
-      console.log('err', err)
       if (err instanceof Error && err.message && err.message === 'Passwords should be the same') {
         setFieldError('confirmPassword', err.message)
       } else if (err instanceof AxiosError && err.response) {

@@ -56,7 +56,6 @@ export function useLoginForm(): UseLoginFormReturn {
         password: form.value.password,
       })
       const data = await resp.data
-      console.log(data)
 
       if (data.token) {
         userStore.setToken(data.token)
@@ -68,14 +67,14 @@ export function useLoginForm(): UseLoginFormReturn {
       try {
         const resp = await api.get('/user')
         const data = await resp.data
-        // userName.value = data.full_name
-        console.log('user', data)
-        // localStorage.setItem('user', JSON.stringify(data))
+        userStore.setUser(data)
+        localStorage.setItem('user', JSON.stringify(data))
       } catch (err) {
         // handleAxiosError(err)
         console.log(err)
       }
     } catch (err) {
+      console.log(err)
       if (err instanceof AxiosError && err.response) {
         const { status, data } = err.response
         if (status === 400 && data.messages) {

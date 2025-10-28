@@ -3,6 +3,7 @@
 .form {
   $root: &;
   width: 100%;
+  margin: 0;
 
   &--error {
     #{$root}__error {

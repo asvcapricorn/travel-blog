@@ -1,12 +1,20 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import api from '@/services/api'
 
+interface UserData {
+  bio?: string
+  city?: string
+  country?: string
+  full_name?: string
+  id?: string
+  photo?: string
+}
+
 export const useUserStore = defineStore('user', () => {
   const isAuthorized = ref(false)
-  // const userEmail = ref('')
-  const userName = ref('')
-  // const userSurname = ref('')
+  const user = ref<UserData>({})
+
   const token = ref(localStorage.getItem('authToken'))
 
   if (token.value) {
@@ -18,23 +26,37 @@ export const useUserStore = defineStore('user', () => {
     localStorage.setItem('authToken', newToken)
     isAuthorized.value = true
 
-    // Устанавливаем токен для всех будущих запросов
     api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
   }
 
-  // const clearToken = () => {
-  //   token.value = null
-  //   isAuthorized.value = false
-  //   localStorage.removeItem('authToken')
-  //   delete api.defaults.headers.common['Authorization']
-  // }
+  const clearToken = () => {
+    token.value = null
+    isAuthorized.value = false
+    localStorage.removeItem('authToken')
+    delete api.defaults.headers.common['Authorization']
+  }
+
+  const setUser = (userData: UserData) => {
+    user.value = userData
+  }
+
+  const clearUser = () => {
+    user.value = {}
+  }
+
+  const logout = () => {
+    clearToken()
+    clearUser()
+  }
 
   return {
     isAuthorized,
-    token: computed(() => token.value),
+    user,
+    token,
     setToken,
-    // userEmail,
-    userName,
-    // userSurname,
+    clearToken,
+    setUser,
+    clearUser,
+    logout,
   }
 })

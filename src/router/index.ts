@@ -22,26 +22,12 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: () => import('../views/RegisterView.vue'),
-    } /*,
+    },
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/ProfileView.vue'),
-      children: [
-        {
-          path: '',
-          redirect: '/profile/favourites',
-        },
-        {
-          path: 'favourites',
-          component: () => import('../components/FavouriteMovies.vue'),
-        },
-        {
-          path: 'settings',
-          component: () => import('../components/UserSettings.vue'),
-        },
-      ],
-    },*/,
+      component: () => import('../views/UserProfileView.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0, behavior: 'smooth' }
