@@ -15,7 +15,7 @@ const { form, errors, formError, isLoading, handleSubmit } = useLoginForm();
             <h2 class="login__title">Вход в профиль</h2>
             <form class="form login-form" :class="{ 'form--error': !!formError }" @submit.prevent="handleSubmit"
               novalidate>
-              <fieldset class=" form__group">
+              <div class="form__group">
                 <span class="form__error">{{ formError }}</span>
                 <div class="custom-input form__group-item form__group-item--two-cols"
                   :class="{ 'custom-input--error': !!errors.email }">
@@ -37,7 +37,7 @@ const { form, errors, formError, isLoading, handleSubmit } = useLoginForm();
                     v-model="form.password">
                   <span class="custom-input__error">{{ errors.password }}</span>
                 </div>
-              </fieldset>
+              </div>
               <div class="form__wrapper">
                 <RouterLink class="form__btn-register btn btn--secondary" to="/register">Зарегистрироваться</RouterLink>
                 <button class="form__btn--login btn btn--primary" type="submit">{{ isLoading ? 'Загрузка...' : 'Войти'

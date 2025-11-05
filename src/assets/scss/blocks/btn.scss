@@ -66,14 +66,15 @@
   //   color: $color-black;
   // }
 
-  // &--icon {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   padding: 15px 21px;
-
-  //   &:disabled {
-  //     background-color: $color-industrial-revolution;
-  //   }
-  // }
+  &--icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    // &:disabled {
+    //   background-color: $color-industrial-revolution;
+    // }
+  }
 }
