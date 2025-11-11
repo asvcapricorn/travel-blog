@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useProfileForm } from '@/composables/useProfileForm';
 import CommonIcon from '@/components/common/CommonIcon.vue';
 
@@ -30,6 +30,11 @@ const profileIsEditing = ref(false);
 const toggleEditingProfile = (): void => {
   profileIsEditing.value = !profileIsEditing.value;
 }
+
+const counter = computed(() => {
+  return form.value.bio.length;
+});
+const maxLength = 600;
 
 // const logout = async (): Promise<void> => {
 //   try {
@@ -104,9 +109,9 @@ const toggleEditingProfile = (): void => {
                 <div class="custom-textarea form__group-item form__group-item--two-cols"
                   :class="{ 'custom-textarea--error': !!errors.bio }">
                   <label class="custom-textarea__label" for="bio">О себе</label>
-                  <textarea class="custom-textarea__field" name="bio" id="bio" placeholder="О себе"
-                    v-model="form.bio"> </textarea>
-                  <span class="custom-textarea__error">{{ errors.bio }}</span>
+                  <textarea class="custom-textarea__field" name="bio" id="bio" placeholder="О себе" v-model="form.bio"
+                    :maxlength="maxLength"> </textarea>
+                  <span class="custom-textarea__counter">{{ counter }} / {{ maxLength }}</span>
                 </div>
               </fieldset>
               <fieldset class="form__group">

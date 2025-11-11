@@ -40,12 +40,11 @@
     outline: none;
     font-size: 14px;
     line-height: 22px;
-    // background-color: $color-onyx;
     color: var(--color-very-dark-grey);
     transition: border-color var(--transition-80);
 
     &::placeholder {
-      color: var(--color-white-25);
+      color: var(--color-black-25);
     }
 
     // @include vp-767 {
