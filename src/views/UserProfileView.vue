@@ -1,40 +1,41 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useProfileForm } from '@/composables/useProfileForm';
+import { useUserStore } from '@/stores/user'
 import CommonIcon from '@/components/common/CommonIcon.vue';
 
-const { form, errors, formError, isLoading, handleSubmit, clearErrors } = useProfileForm();
+const { form, errors, formError, isLoading, handleSubmit, clearErrors, finishEditingProfile } = useProfileForm();
+const userStore = useUserStore()
 
-const userData = localStorage.getItem('user')
-let nameString: string = ''
-let countryString: string = ''
-let cityString: string = ''
-let bioString: string = ''
-let photoString: string = ''
+const userData = computed(() => userStore.user || '{}');
+const nameString = computed(() => userData.value.full_name || 'Пользователь');
+const countryString = computed(() => userData.value.country || 'Не указана');
+const cityString = computed(() => userData.value.city || 'Не указан');
+const bioString = computed(() => userData.value.bio || 'Информация отсутствует');
+const photoString = computed(() => userData.value.photo || '');
 
-if (userData) {
-  try {
-    const parsedUser = JSON.parse(userData);
-    nameString = parsedUser.full_name || 'Пользователь';
-    countryString = parsedUser.country || 'Не указана';
-    cityString = parsedUser.city || 'Не указан';
-    bioString = parsedUser.bio || 'Информация отсутствует';
-    photoString = parsedUser.bio || '';
-  } catch (err) {
-    console.log(err);
-    // handleAxiosError(err)
+const profileIsEditing = ref(false);
+
+watch(finishEditingProfile, (newValue) => {
+  if (newValue) {
+    profileIsEditing.value = false;
+  }
+})
+
+const toggleEditingProfile = (): void => {
+  profileIsEditing.value = !profileIsEditing.value;
+  if (profileIsEditing.value) {
+    finishEditingProfile.value = false;
+    form.value.name = nameString.value;
+    form.value.country = countryString.value;
+    form.value.city = cityString.value;
+    form.value.bio = bioString.value;
   }
 }
 
-const profileIsEditing = ref(false);
-const toggleEditingProfile = (): void => {
-  profileIsEditing.value = !profileIsEditing.value;
-}
-
-const counter = computed(() => {
-  return form.value.bio.length;
-});
-const maxLength = 600;
+const MAX_LENGTH = 600;
+const maxLengthError = computed(() => form.value.bio.length === MAX_LENGTH);
+const counter = computed(() => form.value.bio.length);
 
 // const logout = async (): Promise<void> => {
 //   try {
@@ -49,6 +50,13 @@ const maxLength = 600;
 //     // handleAxiosError(err)
 //   }
 // }
+
+const inputFileEl = ref<HTMLInputElement | null>(null);
+const fileName = ref('Изменить фото');
+const uploadPhoto = () => {
+  fileName.value = inputFileEl?.value?.files?.[0]?.name || 'Изменить фото';
+}
+
 </script>
 
 <template>
@@ -62,10 +70,14 @@ const maxLength = 600;
                 alt="Фото истории" v-if="photoString" />
               <CommonIcon class="profile__image" iconName="IconUserDefault" v-else />
             </div>
-            <button class="profile__edit-photo" type="button">
-              <CommonIcon iconName="IconPhoto" />
-              <span class="profile__edit-photo-text">Изменить фото</span>
-            </button>
+            <div class="custom-file-input">
+              <label class="custom-file-input__label" for="photo">
+                <CommonIcon iconName="IconPhoto" />
+                <span class="custom-file-input__label-text">{{ fileName }} </span>
+              </label>
+              <input class="custom-file-input__field" type="file" id="photo" name="photo" accept="image/*"
+                @change="uploadPhoto" ref="inputFileEl">
+            </div>
           </div>
           <div class="profile__info">
             <div class="profile__content">
@@ -75,9 +87,10 @@ const maxLength = 600;
                   <CommonIcon iconName="IconEdit" />
                 </button>
               </div>
+              <span class="profile__item">Страна:</span>
+              <span class="profile__location">{{ countryString }}</span>
               <span class="profile__item">Город:</span>
-              <span class="profile__country">{{ countryString }}</span>
-              <span class="profile__city">{{ cityString }}</span>
+              <span class="profile__location">{{ cityString }}</span>
               <span class="profile__item">О себе:</span>
               <p class="profile__bio">{{ bioString }}</p>
             </div>
@@ -107,21 +120,21 @@ const maxLength = 600;
                     v-model="form.city">
                 </div>
                 <div class="custom-textarea form__group-item form__group-item--two-cols"
-                  :class="{ 'custom-textarea--error': !!errors.bio }">
+                  :class="{ 'custom-textarea--error': maxLengthError }">
                   <label class="custom-textarea__label" for="bio">О себе</label>
                   <textarea class="custom-textarea__field" name="bio" id="bio" placeholder="О себе" v-model="form.bio"
-                    :maxlength="maxLength"> </textarea>
-                  <span class="custom-textarea__counter">{{ counter }} / {{ maxLength }}</span>
+                    :maxlength="MAX_LENGTH"> </textarea>
+                  <span class="custom-textarea__counter">{{ counter }} / {{ MAX_LENGTH }}</span>
                 </div>
               </fieldset>
               <fieldset class="form__group">
                 <legend class="form__group-name">Смена пароля</legend>
                 <div class="custom-input form__group-item" :class="{ 'custom-input--error': !!errors.password }">
                   <label class="custom-input__label" for="password">
-                    <span class="custom-input__label-text">Пароль</span>
+                    <span class="custom-input__label-text">Новый пароль</span>
                   </label>
-                  <input class="custom-input__field" name="password" id="password" type="password" placeholder="Пароль"
-                    v-model="form.password" @input="clearErrors">
+                  <input class="custom-input__field" name="password" id="password" type="password"
+                    placeholder="Новый пароль" v-model="form.password" @input="clearErrors">
                   <span class="custom-input__error">{{ errors.password }}</span>
                 </div>
                 <div class="custom-input form__group-item" :class="{ 'custom-input--error': !!errors.confirmPassword }">
@@ -134,9 +147,8 @@ const maxLength = 600;
                 </div>
               </fieldset>
               <div class="form__wrapper">
-                <button class="form__btn-register btn btn--secondary" type="button"
-                  @click="toggleEditingProfile">Назад</button>
-                <button class="form__btn--login btn btn--primary" type="submit">{{ isLoading ? 'Загрузка...' :
+                <button class="btn btn--secondary" type="button" @click="toggleEditingProfile">Назад</button>
+                <button class="btn btn--primary" type="submit" :disabled="isLoading">{{ isLoading ? 'Загрузка...' :
                   'Сохранить' }}</button>
               </div>
             </form>

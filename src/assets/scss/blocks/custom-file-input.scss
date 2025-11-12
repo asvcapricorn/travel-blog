@@ -1,0 +1,20 @@
+.custom-file-input {
+  display: none;
+  align-self: center;
+
+  &__label {
+    color: var(--color-vivid-orange);
+    gap: 6px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__label-text {
+    text-decoration: underline;
+  }
+
+  &__field {
+    display: none;
+  }
+}

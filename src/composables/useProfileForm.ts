@@ -1,6 +1,9 @@
 import { ref, type Ref } from 'vue'
 import api from '@/services/api'
 import { AxiosError } from 'axios'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 interface ProfileForm {
   name: string
@@ -9,13 +12,10 @@ interface ProfileForm {
   bio: string
   password: string
   confirmPassword: string
+  photo: string
 }
 
 interface ValidationErrors {
-  name?: string
-  country?: string
-  city?: string
-  bio?: string
   password?: string
   confirmPassword?: string
 }
@@ -27,6 +27,7 @@ interface UseProfileFormReturn {
   isLoading: Ref<boolean>
   handleSubmit: () => Promise<void>
   clearErrors: () => void
+  finishEditingProfile: Ref<boolean>
 }
 
 export function useProfileForm(): UseProfileFormReturn {
@@ -37,11 +38,13 @@ export function useProfileForm(): UseProfileFormReturn {
     bio: 'Информация отсутствует',
     password: '',
     confirmPassword: '',
+    photo: '',
   })
 
   const errors = ref<ValidationErrors>({})
   const formError = ref('')
   const isLoading = ref(false)
+  const finishEditingProfile = ref(false)
 
   const clearErrors = (): void => {
     errors.value = {}
@@ -65,6 +68,7 @@ export function useProfileForm(): UseProfileFormReturn {
         })
         const data1 = await resp1.data
         console.log('data1', data1)
+
         if (form.value.password) {
           const resp2 = await api.patch('/user/password', {
             password: form.value.password,
@@ -72,11 +76,23 @@ export function useProfileForm(): UseProfileFormReturn {
           const data2 = await resp2.data
           console.log('data2', data2)
         }
+
+        try {
+          const resp = await api.get('/user')
+          const data = await resp.data
+          console.log('user', data)
+          userStore.setUser(data)
+          // localStorage.setItem('user', JSON.stringify(data))
+        } catch (err) {
+          // handleAxiosError(err)
+          console.log('await api.get(/user) err', err)
+        }
+
+        finishEditingProfile.value = true
       } else {
         throw new Error('Passwords should be the same')
       }
     } catch (err) {
-      console.log('err', err)
       if (err instanceof Error && err.message && err.message === 'Passwords should be the same') {
         setFieldError('confirmPassword', err.message)
       } else if (err instanceof AxiosError && err.response) {
@@ -105,5 +121,6 @@ export function useProfileForm(): UseProfileFormReturn {
     isLoading,
     handleSubmit,
     clearErrors,
+    finishEditingProfile,
   }
 }

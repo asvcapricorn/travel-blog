@@ -3,32 +3,26 @@
   position: relative;
   width: 100%;
 
-  // &--error {
-  //   #{$root}__field {
-  //     border-color: var(--color-light-red);
-  //   }
-  // }
+  &--error {
+    #{$root}__counter {
+      color: var(--color-light-red);
+    }
+  }
 
-  // &:not(&--error) {
-  //   #{$root}__field {
-  //     &:hover,
-  //     &:focus-visible {
-  //       border-color: var(--color-fark-grayish-red);
-  //     }
-  //   }
-  // }
+  &:not(&--error) {
+    #{$root}__field {
+      &:hover,
+      &:focus-visible {
+        border-color: var(--color-fark-grayish-red);
+      }
+    }
+  }
 
   &__label {
     margin: 0 0 8px;
     font-size: 14px;
     line-height: 22px;
   }
-
-  // &__label-text {
-  //   font-size: 14px;
-  //   line-height: 22px;
-  //   color: var(--color-black-85);
-  // }
 
   &__field {
     resize: none;
@@ -42,7 +36,6 @@
     font-size: 14px;
     line-height: 22px;
     color: var(--color-very-dark-grey);
-    transition: border-color var(--transition-80);
 
     &::placeholder {
       color: var(--color-black-25);
@@ -53,20 +46,12 @@
     // }
   }
 
-  // &__error {
-  //   position: absolute;
-  //   font-size: 12px;
-  //   line-height: 16px;
-  //   left: 0;
-  //   bottom: -16px;
-  //   color: var(--color-light-red);
-  // }
-
   &__counter {
     font-size: 14px;
     line-height: 22px;
     color: var(--color-black-25);
     display: block;
     text-align: end;
+    transition: color var(--transition-80);
   }
 }
