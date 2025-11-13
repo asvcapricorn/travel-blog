@@ -7,7 +7,12 @@ import CommonIcon from '@/components/common/CommonIcon.vue';
 const { form, errors, formError, isLoading, handleSubmit, clearErrors, finishEditingProfile } = useProfileForm();
 const userStore = useUserStore()
 
-const userData = computed(() => userStore.user || '{}');
+const userData = computed(() => {
+  if (Object.keys(userStore.user).length !== 0) {
+    return userStore.user
+  }
+  return JSON.parse(localStorage.getItem('user') || '{}')
+});
 const nameString = computed(() => userData.value.full_name || 'Пользователь');
 const countryString = computed(() => userData.value.country || 'Не указана');
 const cityString = computed(() => userData.value.city || 'Не указан');

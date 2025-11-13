@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import CommonIcon from '@/components/common/CommonIcon.vue'
@@ -10,6 +11,13 @@ defineProps<{
 const userStore = useUserStore()
 const { user, isAuthorized } = storeToRefs(userStore)
 
+const userData = computed(() => {
+  if (Object.keys(user.value).length !== 0) {
+    return user.value
+  }
+  return JSON.parse(localStorage.getItem('user') || '{}')
+});
+const nameString = computed(() => userData.value.full_name || 'Пользователь');
 </script>
 
 <template>
@@ -26,7 +34,7 @@ const { user, isAuthorized } = storeToRefs(userStore)
           </RouterLink>
           <div class="header__right">
             <RouterLink class="header__profile" to="/profile" v-if="isAuthorized">
-              {{ user?.full_name || 'Профиль' }}
+              {{ nameString }}
             </RouterLink>
             <RouterLink class="header__profile" to="/login" v-else>
               Войти

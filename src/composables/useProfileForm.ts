@@ -82,7 +82,8 @@ export function useProfileForm(): UseProfileFormReturn {
           const data = await resp.data
           console.log('user', data)
           userStore.setUser(data)
-          // localStorage.setItem('user', JSON.stringify(data))
+          localStorage.setItem('user', JSON.stringify(data))
+          console.log('localStorage.getItem', localStorage.getItem('user'))
         } catch (err) {
           // handleAxiosError(err)
           console.log('await api.get(/user) err', err)

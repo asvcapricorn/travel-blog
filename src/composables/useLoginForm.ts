@@ -68,7 +68,7 @@ export function useLoginForm(): UseLoginFormReturn {
         const resp = await api.get('/user')
         const data = await resp.data
         userStore.setUser(data)
-        // localStorage.setItem('user', JSON.stringify(data))
+        localStorage.setItem('user', JSON.stringify(data))
       } catch (err) {
         // handleAxiosError(err)
         console.log(err)
