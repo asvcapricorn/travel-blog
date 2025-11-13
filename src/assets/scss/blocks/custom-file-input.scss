@@ -1,6 +1,9 @@
 .custom-file-input {
   display: none;
   align-self: center;
+  width: 100%;
+  overflow: hidden;
+  justify-content: center;
 
   &__label {
     color: var(--color-vivid-orange);
@@ -12,6 +15,10 @@
 
   &__label-text {
     text-decoration: underline;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px;
   }
 
   &__field {

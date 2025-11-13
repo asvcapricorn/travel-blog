@@ -12,7 +12,7 @@ interface ProfileForm {
   bio: string
   password: string
   confirmPassword: string
-  photo: string
+  photo: File | string
 }
 
 interface ValidationErrors {
@@ -28,6 +28,7 @@ interface UseProfileFormReturn {
   handleSubmit: () => Promise<void>
   clearErrors: () => void
   finishEditingProfile: Ref<boolean>
+  fileName: Ref<string>
 }
 
 export function useProfileForm(): UseProfileFormReturn {
@@ -45,6 +46,7 @@ export function useProfileForm(): UseProfileFormReturn {
   const formError = ref('')
   const isLoading = ref(false)
   const finishEditingProfile = ref(false)
+  const fileName = ref('Изменить фото')
 
   const clearErrors = (): void => {
     errors.value = {}
@@ -60,30 +62,36 @@ export function useProfileForm(): UseProfileFormReturn {
     isLoading.value = true
     try {
       if (form.value.password === form.value.confirmPassword) {
-        const resp1 = await api.post('/user', {
-          full_name: form.value.name,
-          country: form.value.country,
-          city: form.value.city,
-          bio: form.value.bio,
+        const formData = new FormData()
+        formData.append('full_name', form.value.name)
+        formData.append('country', form.value.country)
+        formData.append('city', form.value.city)
+        formData.append('bio', form.value.bio)
+
+        if (form.value.photo instanceof File) {
+          formData.append('photo', form.value.photo)
+        }
+
+        await api.post('/user', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         })
-        const data1 = await resp1.data
-        console.log('data1', data1)
+
+        fileName.value = 'Изменить фото'
 
         if (form.value.password) {
-          const resp2 = await api.patch('/user/password', {
+          await api.patch('/user/password', {
             password: form.value.password,
           })
-          const data2 = await resp2.data
-          console.log('data2', data2)
         }
 
         try {
           const resp = await api.get('/user')
           const data = await resp.data
-          console.log('user', data)
+
           userStore.setUser(data)
           localStorage.setItem('user', JSON.stringify(data))
-          console.log('localStorage.getItem', localStorage.getItem('user'))
         } catch (err) {
           // handleAxiosError(err)
           console.log('await api.get(/user) err', err)
@@ -94,6 +102,7 @@ export function useProfileForm(): UseProfileFormReturn {
         throw new Error('Passwords should be the same')
       }
     } catch (err) {
+      console.log(err)
       if (err instanceof Error && err.message && err.message === 'Passwords should be the same') {
         setFieldError('confirmPassword', err.message)
       } else if (err instanceof AxiosError && err.response) {
@@ -123,5 +132,6 @@ export function useProfileForm(): UseProfileFormReturn {
     handleSubmit,
     clearErrors,
     finishEditingProfile,
+    fileName,
   }
 }

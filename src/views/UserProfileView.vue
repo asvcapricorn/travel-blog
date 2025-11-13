@@ -4,7 +4,7 @@ import { useProfileForm } from '@/composables/useProfileForm';
 import { useUserStore } from '@/stores/user'
 import CommonIcon from '@/components/common/CommonIcon.vue';
 
-const { form, errors, formError, isLoading, handleSubmit, clearErrors, finishEditingProfile } = useProfileForm();
+const { form, errors, formError, isLoading, handleSubmit, clearErrors, finishEditingProfile, fileName } = useProfileForm();
 const userStore = useUserStore()
 
 const userData = computed(() => {
@@ -57,9 +57,27 @@ const counter = computed(() => form.value.bio.length);
 // }
 
 const inputFileEl = ref<HTMLInputElement | null>(null);
-const fileName = ref('Изменить фото');
-const uploadPhoto = () => {
-  fileName.value = inputFileEl?.value?.files?.[0]?.name || 'Изменить фото';
+
+const imgError = ref('');
+const uploadPhoto = async (): Promise<void> => {
+  const file = inputFileEl?.value?.files?.[0];
+
+  if (!file) {
+    return;
+  }
+
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
+  if (file.size > MAX_FILE_SIZE) {
+    imgError.value = `Размер файла не должен превышать ${MAX_FILE_SIZE / 1024 / 1024} MB`;
+    if (inputFileEl.value) {
+      inputFileEl.value.value = '';
+    }
+    return;
+  }
+
+  imgError.value = '';
+  fileName.value = file?.name;
+  form.value.photo = file;
 }
 
 </script>
@@ -72,17 +90,18 @@ const uploadPhoto = () => {
           <div class="profile__img-wrapper">
             <div class="profile__img-container">
               <img class="profile__image" :src="`https://travelblog.skillbox.cc${photoString}`" height="240" width="240"
-                alt="Фото истории" v-if="photoString" />
+                alt="Фото пользователя" v-if="photoString" />
               <CommonIcon class="profile__image" iconName="IconUserDefault" v-else />
             </div>
             <div class="custom-file-input">
-              <label class="custom-file-input__label" for="photo">
+              <label class="custom-file-input__label" for="photo" :title="fileName">
                 <CommonIcon iconName="IconPhoto" />
                 <span class="custom-file-input__label-text">{{ fileName }} </span>
               </label>
               <input class="custom-file-input__field" type="file" id="photo" name="photo" accept="image/*"
                 @change="uploadPhoto" ref="inputFileEl">
             </div>
+            <span class="profile__img-error">{{ imgError }}</span>
           </div>
           <div class="profile__info">
             <div class="profile__content">
